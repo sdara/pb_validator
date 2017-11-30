@@ -1,0 +1,86 @@
+<html>
+	<head>
+		<style type="text/css">
+			.number,
+			.powerball{
+				width:40px;
+				font-size:1em;
+			}
+			
+			.got{
+				background-color:#0F0;
+				font-weight:bold;
+			}
+		</style>
+		<script type="text/javascript" src="jquery-1.7.min.js"></script>
+		<script type="text/javascript">
+		var ticket_array = [];
+			$( document ).ready( function(){
+				
+				$( '#add_ticket' ).click( function(){
+					var arr = {
+						ticket: ticket_array.length + 1,
+						numbers:[],
+						power_ball:0
+					};
+					
+
+					
+					ticket_array.push( arr );
+					
+					$( '#pb_numbers .number_row' ).clone().appendTo( '#scoreboard' );
+					$( '#pb_numbers .number, #pb_numbers .powerball' ).val( '' );
+					
+				} );
+				
+				$( '#check_winnings' ).click( function(){
+				
+					$( '#pb_numbers .number, #pb_numbers .powerball' ).removeClass('got');
+				
+					var numbers = [];
+					var powerball = 0;
+					
+					$( '#pb_numbers .number' ).each( function( ){
+						numbers.push( parseInt( $( this ).val(), 10 ) );
+					} );
+					
+					powerball = parseInt( $( '#pb_numbers .powerball' ).val(), 10 );
+				
+					$( '#scoreboard .number' ).each( function(){
+						if( $.inArray( parseInt( $( this ).val(), 10 ), numbers ) != -1 )
+						{
+							$(this).addClass( 'got' );
+						}
+					} );
+					
+					$( '#scoreboard .powerball' ).each( function(){
+						if( parseInt( $( this ).val(), 10 ) == powerball )
+						{
+							$(this).addClass( 'got' );
+						}
+					} );
+					
+					
+				} );				
+				
+			} );
+		</script>
+	</head>
+	<body>
+	<div id="pb_numbers">
+		<div>Drawing Numbers</div>
+		<div class="number_row">
+			<input type="text" maxlength="2" class="number" value="" />
+			<input type="text" maxlength="2" class="number" value="" />
+			<input type="text" maxlength="2" class="number" value="" />
+			<input type="text" maxlength="2" class="number" value="" />
+			<input type="text" maxlength="2" class="number" value="" />
+			PB:
+			<input type="text" maxlength="2" class="powerball" value="" />
+		</div>
+		<input type="button" id="add_ticket" value="ADD TICKET" />
+		<input type="button" id="check_winnings" value="Check Winnings" />
+	</div>
+	<div id="scoreboard"><div>
+	</body>
+</html>

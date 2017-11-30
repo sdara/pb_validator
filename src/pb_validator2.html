@@ -1,0 +1,123 @@
+<html>
+	<head>
+		<style type="text/css">
+			.number,
+			.powerball{
+				width:40px;
+				font-size:1em;
+			}
+			
+			.got{
+				background-color:#0F0;
+				font-weight:bold;
+			}
+		</style>
+		<script type="text/javascript" src="jquery-1.7.min.js"></script>
+		<script type="text/javascript">
+		var ticket_array = [];
+			$( document ).ready( function(){
+				
+				$( '#add_ticket' ).click( function(){
+					var arr = {
+						ticket: ticket_array.length + 1,
+						numbers:[],
+						power_ball:0
+					};
+					
+
+					
+					ticket_array.push( arr );
+					
+					$( '#pb_numbers .number_row' ).clone().appendTo( '#scoreboard' );
+					$( '#pb_numbers .number, #pb_numbers .powerball' ).val( '' );
+					
+				} );
+				
+				$( '#check_winnings' ).click( function(){
+				
+					$( '#pb_numbers .number, #pb_numbers .powerball' ).removeClass('got');
+				
+					var numbers = [];
+					var powerball = 0;
+					
+					$( '#pb_numbers .number' ).each( function( ){
+						numbers.push( parseInt( $( this ).val(), 10 ) );
+					} );
+					
+					powerball = parseInt( $( '#pb_numbers .powerball' ).val(), 10 );
+				
+					$( '#scoreboard .number' ).each( function(){
+						if( $.inArray( parseInt( $( this ).val(), 10 ), numbers ) != -1 )
+						{
+							$(this).addClass( 'got' );
+						}
+					} );
+					
+					$( '#scoreboard .powerball' ).each( function(){
+						if( parseInt( $( this ).val(), 10 ) == powerball )
+						{
+							$(this).addClass( 'got' );
+						}
+					} );
+					
+					
+				} );				
+				
+				$('#compare').click( function() {
+					var draw_numbers = [];
+					var rows = $('#tabbed_numbers').val().split("\n");
+					if( rows.length > 1 ) {
+						
+						var x = 0;
+						var i;
+						for( i = 0; i < rows.length; i += 1 ) {
+							if( rows[ i ] ) {
+								var numbers = rows[ i ].split("\t");
+								if( numbers.length ) {
+									draw_numbers[ x ] = [];
+									var j;
+									for( j = 0; j < 5; j += 1 ) {
+										draw_numbers[ x ].push( parseInt( numbers[ j ], 10 ) );
+									}
+									
+									x += 1;
+								}
+							}
+						}
+					}
+					
+					if( draw_numbers.length ) {
+						var y;
+						for( y = 1; y < draw_numbers.length; y += 1 ) {
+							var z = 0;
+							for( z = 0; z < draw_numbers[ 0 ].length; z += 1 ) {
+								//if( draw_numbers[ 0 ][ z ] == draw_numbers[ y ]
+							}
+						}
+					}
+				} );
+				
+				
+			} );
+		</script>
+	</head>
+	<body>
+		<div id="pb_numbers">
+			<div>
+				Numbers<br />
+				* first line is drawing numbers<br />
+				* any line after are your numbers<br />
+				* tab separated<br /><br />
+			</div>
+			Tabbed Number String:<br/>
+			<textarea id="tabbed_numbers" rows="10" cols="50">05	25	30	58	59	32
+16	49	52	56	58	29
+07	08	28	40	48	24
+17	23	36	48	57	04
+14	20	29	45	55	12
+09	12	45	47	58	04</textarea><br />
+			<input type="button" id="compare" value="go" />
+		</div>
+		<div id="scoreboard"><div>
+	</body>
+</html>
